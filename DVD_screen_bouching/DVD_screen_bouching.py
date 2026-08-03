@@ -19,30 +19,25 @@ size = 20
 fps = 60
 clock = pygame.time.Clock()
 
-# Color
-red = (255,0,0)
-blue = (0,0,255)
-green = (0,255,0)
-white = (255,255,255)
-black = (0,0,0)
-random_number = random.randint(0,255)
-random_color = (random_number,random_number,random_number)
-
-# Ball
-x = width / 2
-y = height / 2 + 100
-
 # Physics
 vy = 5
 vx = 5
+x = 10
+y = 10
 
 # Sounds
 bounce_path = os.path.join(file_path,"assets","sounds","Bounce.mp3")
 bounce_sound = pygame.mixer.Sound(bounce_path)
 
+# Logo
+dvd_width = 100
+dvd_height = 50
+dvd_path = os.path.join(file_path,"assets","image","DVD_Logo.png")
+dvd_image = pygame.image.load(dvd_path)
+dvd = pygame.transform.scale(dvd_image,(dvd_width,dvd_height))
+
 screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("DVD Screen Bouching")
-
 running = True
 while running:
     for event in pygame.event.get():
@@ -50,55 +45,43 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill(black)
+    screen.fill((0,0,0))
 
-    balls = pygame.draw.circle(screen , random_color , (x , y), size)
+    screen.blit(dvd,(x,y))
 
-    if (y < height - size) or (vy != 0):
+    if (y < height - dvd_height ) or (vy != 0):
         y += vy
-    if y >= height - size:
-        y = height - size
+    if y >= height - dvd_height:
+        y = height - dvd_height
         vy *= -1
-        random_color = (random.randint(0,255),
-                        random.randint(0,255),
-                        random.randint(0,255))
         bounce_sound.play()
         count += 1
 
-    if (y > 0 + size) or (vy != 0):
+    if (y > 0 ) or (vy != 0):
         y += vy
-    if y <= 0 + size:
-        y = 0 + size
+    if y <= 0 :
+        y = 0
         vy *= -1
-        random_color = (random.randint(0,255),
-                        random.randint(0,255),
-                        random.randint(0,255))
         bounce_sound.play()
         count += 1
 
-    if (x  < width - size) or (vx != 0):
+    if (x  < width - dvd_width ) or (vx != 0):
         x += vx
-    if x >= width - size :
-        x = width - size
+    if x >= width - dvd_width:
+        x = width -dvd_width
         vx *= -1
-        random_color = (random.randint(0,255),
-                        random.randint(0,255),
-                        random.randint(0,255))
         bounce_sound.play()
         count += 1
 
-    if (x > 0 + size) or (vx != 0):
+    if (x > 0 ) or (vx != 0):
         x += vx
-    if x <= 0 + size:
-        x = 0 + size
+    if x <= 0 :
+        x = 0 
         vx *= -1
-        random_color = (random.randint(0,255),
-                        random.randint(0,255),
-                        random.randint(0,255))
         bounce_sound.play()
         count += 1
 
-    text = font.render(f"Bounces: {count}" , True , white)
+    text = font.render(f"Bounces: {count}" , True , (255,255,255))
     rect = text.get_rect(midtop = (width / 2 , 10))
     screen.blit(text,rect)
         
